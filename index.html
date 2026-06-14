@@ -6,140 +6,168 @@
 
 <title>Inspiradata AI</title>
 <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#0f4c81" />
+<meta name="theme-color" content="#061b4d" />
 
 <style>
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:#eef3f9;
-  color:#111;
-  padding-bottom:80px;
+  background:#eef4fb;
+  color:#0f172a;
+  padding-bottom:78px;
 }
-.header{
-  background:linear-gradient(135deg,#0f4c81,#123c69);
+#splash{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(145deg,#061b4d,#0f4c81);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
   color:white;
-  padding:18px;
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
-  letter-spacing:.5px;
 }
-.container{padding:15px}
+#splash img{
+  width:190px;
+  max-width:62%;
+  border-radius:28px;
+}
+#splash h1{margin:18px 0 6px;font-size:24px}
+#splash p{margin:0;color:#dbeafe;font-size:14px}
+.header{
+  background:linear-gradient(135deg,#061b4d,#0f4c81);
+  color:white;
+  padding:16px;
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+  letter-spacing:.7px;
+}
+.container{padding:14px}
 .card{
   background:white;
   padding:16px;
   margin-bottom:14px;
-  border-radius:16px;
-  box-shadow:0 3px 10px rgba(0,0,0,.10);
+  border-radius:18px;
+  box-shadow:0 4px 14px rgba(15,76,129,.12);
 }
 input,select,textarea{
   width:100%;
   padding:12px;
   border:1px solid #cbd5e1;
-  border-radius:10px;
+  border-radius:11px;
   margin:8px 0 12px;
   font-size:14px;
 }
 button{
   width:100%;
   padding:13px;
-  background:#0f4c81;
+  background:linear-gradient(135deg,#0f4c81,#0284c7);
   color:white;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   font-weight:bold;
   cursor:pointer;
 }
-.hidden{display:none}
-.small{font-size:13px;color:#667085}
+button:active{transform:scale(.99)}
+.hidden{display:none!important}
+.small{font-size:13px;color:#64748b;line-height:1.45}
+.hero{
+  background:linear-gradient(135deg,#061b4d,#0f4c81);
+  color:white;
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:14px;
+}
+.hero h2{margin:0 0 8px}
+.hero p{margin:0;color:#dbeafe;font-size:13px}
+.logo-mini{
+  width:74px;
+  height:74px;
+  border-radius:18px;
+  object-fit:cover;
+  display:block;
+  margin-bottom:12px;
+}
+.access-wrap{
+  min-height:calc(100vh - 150px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.access-card{
+  width:100%;
+  max-width:430px;
+  background:white;
+  border-radius:24px;
+  padding:26px;
+  box-shadow:0 12px 30px rgba(15,76,129,.20);
+}
+.access-card img{
+  width:125px;
+  display:block;
+  margin:0 auto 14px;
+  border-radius:24px;
+}
+.access-card h2{text-align:center;color:#0f4c81;margin:4px 0}
+.access-card p{text-align:center;color:#64748b;font-size:14px}
 .tren{
   padding:13px;
-  border:1px solid #e5e7eb;
-  border-radius:12px;
+  border:1px solid #e2e8f0;
+  border-radius:14px;
   margin-bottom:10px;
-  background:#fafcff;
+  background:#f8fbff;
   cursor:pointer;
 }
-.tren:hover{background:#eef6ff}
+.tren:hover{background:#eaf6ff}
 .badge{
   display:inline-block;
-  background:#e8f1fb;
-  color:#0f4c81;
+  background:#dff3ff;
+  color:#075985;
   padding:4px 9px;
   border-radius:20px;
   font-size:12px;
   margin:6px 0;
 }
-.result-box{line-height:1.5}
-.access-wrap{
-  min-height:calc(100vh - 160px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+.result-box{line-height:1.55}
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
-.access-card{
-  width:100%;
-  max-width:430px;
-  background:linear-gradient(180deg,#fff,#f8fbff);
-  border-radius:22px;
-  padding:26px;
-  box-shadow:0 10px 28px rgba(15,76,129,.18);
-  border:1px solid #e4edf7;
+.stat{
+  background:#f8fbff;
+  border:1px solid #e2e8f0;
+  border-radius:14px;
+  padding:12px;
 }
-.access-logo{
-  width:74px;
-  height:74px;
-  border-radius:22px;
-  background:#0f4c81;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:36px;
-  margin:0 auto 14px;
-}
-.access-card h2{
-  text-align:center;
-  margin:4px 0 8px;
-  color:#0f4c81;
-}
-.access-card p{
-  text-align:center;
-  color:#667085;
-  font-size:14px;
-  margin-bottom:22px;
-}
-.access-card label{
-  font-weight:bold;
-  font-size:14px;
-}
-.access-note{
-  margin-top:15px;
-  font-size:12px;
-  color:#667085;
-  text-align:center;
-  line-height:1.4;
-}
+.stat b{font-size:20px;color:#0f4c81}
+.section{display:none}
+.section.active{display:block}
 .bottom-nav{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
-  height:62px;
+  height:64px;
   background:white;
   display:flex;
   justify-content:space-around;
   align-items:center;
-  box-shadow:0 -2px 10px rgba(0,0,0,.12);
-  font-size:12px;
+  box-shadow:0 -3px 14px rgba(0,0,0,.12);
   z-index:99;
 }
-.bottom-nav div{
-  text-align:center;
+.bottom-nav button{
+  background:none;
   color:#0f4c81;
+  box-shadow:none;
+  border-radius:0;
+  padding:6px;
+  font-size:12px;
+}
+.bottom-nav button.active{
+  color:#0284c7;
   font-weight:bold;
 }
 </style>
@@ -147,121 +175,187 @@ button{
 
 <body>
 
+<div id="splash">
+  <img src="logo.png" alt="Inspiradata AI">
+  <h1>INSPIRADATA AI</h1>
+  <p>Dari Data Menjadi Edukasi</p>
+</div>
+
 <div class="header">INSPIRADATA AI</div>
 
 <div class="container">
 
   <div class="access-wrap" id="loginBox">
     <div class="access-card">
-      <div class="access-logo">🤖</div>
+      <img src="logo.png" alt="Inspiradata AI">
       <h2>Inspiradata AI</h2>
       <p>Asisten intelijen konten penyuluhan berbasis tren isu publik.</p>
 
-      <label>Kode Akses</label>
+      <label><b>Kode Akses</b></label>
       <input type="text" id="kodeAkses" placeholder="Contoh: INS-ADMIN-001" />
-
       <button onclick="login()">MASUK APLIKASI</button>
 
-      <div class="access-note">
-        Akses hanya untuk pengguna yang telah mendapatkan kode dari administrator.
-      </div>
+      <p class="small">Akses hanya untuk pengguna yang telah mendapatkan kode dari administrator.</p>
     </div>
   </div>
 
-  <div id="dashboard" class="hidden">
+  <div id="appBox" class="hidden">
 
-    <div class="card">
-      <h3>🔥 Top Tren Isu Hari Ini</h3>
-      <p class="small">Data berasal dari media online dan sumber publik yang dianalisis AI.</p>
-      <div id="trenList">Memuat data...</div>
-    </div>
-
-    <div class="card">
-      <h3>🧠 Insight AI</h3>
-      <div id="insightBox" class="result-box">
-        Klik salah satu tren isu untuk melihat analisis AI.
+    <section id="homeSection" class="section active">
+      <div class="hero">
+        <img src="logo.png" class="logo-mini">
+        <h2>Selamat Datang</h2>
+        <p id="userInfo">Inspiradata AI siap membantu membaca isu dan membuat konten edukasi.</p>
       </div>
-    </div>
 
-    <div class="card">
-      <h3>🎯 Rekomendasi Hari Ini</h3>
-      <p class="small">AI memilih isu prioritas dari tren publik hari ini.</p>
-      <button onclick="rekomendasiHariIni()">APA YANG PERLU SAYA BAHAS HARI INI?</button>
-      <div id="rekomendasiBox" style="margin-top:12px;">Belum ada rekomendasi.</div>
-    </div>
-
-    <div class="card">
-      <h3>💡 Generator Konten</h3>
-
-      <select id="kategori">
-        <option>P4GN</option>
-        <option>Penyuluhan Narkoba</option>
-        <option>Keluarga</option>
-        <option>Desa Bersinar</option>
-        <option>Anak</option>
-        <option>Remaja</option>
-        <option>Pendidikan</option>
-        <option>Instansi Pemerintah</option>
-        <option>Dakwah Umum</option>
-        <option>Motivasi</option>
-      </select>
-
-      <input type="text" id="tema" placeholder="Masukkan tema atau pilih tren isu" />
-
-      <button onclick="generateKonten()">BUAT KONTEN</button>
-    </div>
-
-    <div class="card">
-      <h3>📄 Hasil Konten</h3>
-      <div id="hasilKonten" class="result-box">Belum ada hasil.</div>
-    </div>
-
-    <div class="card">
-      <h3>🖼 Generator Infografis</h3>
-
-      <select id="modelGambar">
-        <option>Foto Profesional</option>
-        <option>Poster Pemerintah</option>
-        <option>Flat Design</option>
-        <option>Kartun</option>
-        <option>Karikatur</option>
-      </select>
-
-      <button onclick="generateInfografis()">BUAT IDE INFOGRAFIS</button>
-
-      <div id="hasilInfografis" class="result-box" style="margin-top:12px;">
-        Belum ada hasil infografis.
+      <div class="grid2">
+        <div class="stat"><b id="totalTren">0</b><br><span class="small">Tren Isu</span></div>
+        <div class="stat"><b id="topSkor">0</b><br><span class="small">Skor Tertinggi</span></div>
       </div>
-    </div>
+
+      <div class="card">
+        <h3>🎯 Apa yang Perlu Saya Bahas Hari Ini?</h3>
+        <p class="small">AI memilih isu prioritas dari tren publik hari ini.</p>
+        <button onclick="rekomendasiHariIni()">LIHAT REKOMENDASI</button>
+        <div id="rekomendasiBox" style="margin-top:12px;">Belum ada rekomendasi.</div>
+      </div>
+
+      <div class="card">
+        <h3>🔥 Top 3 Tren Hari Ini</h3>
+        <div id="topHome">Memuat data...</div>
+      </div>
+    </section>
+
+    <section id="trenSection" class="section">
+      <div class="card">
+        <h3>📈 Tren Isu AI</h3>
+        <p class="small">Data berasal dari media online dan sumber publik yang dianalisis AI.</p>
+        <select id="filterKategori" onchange="renderTren()">
+          <option>Semua</option>
+          <option>P4GN</option>
+          <option>Penyuluhan Narkoba</option>
+          <option>Keluarga</option>
+          <option>Desa Bersinar</option>
+          <option>Anak</option>
+          <option>Remaja</option>
+          <option>Pendidikan</option>
+          <option>Instansi Pemerintah</option>
+          <option>Dakwah Umum</option>
+          <option>Motivasi</option>
+        </select>
+        <div id="trenList">Memuat data...</div>
+      </div>
+
+      <div class="card">
+        <h3>🧠 Insight AI</h3>
+        <div id="insightBox" class="result-box">
+          Klik salah satu tren isu untuk melihat analisis AI.
+        </div>
+      </div>
+    </section>
+
+    <section id="kontenSection" class="section">
+      <div class="card">
+        <h3>💡 Generator Konten AI</h3>
+
+        <label>Kategori</label>
+        <select id="kategori">
+          <option>P4GN</option>
+          <option>Penyuluhan Narkoba</option>
+          <option>Keluarga</option>
+          <option>Desa Bersinar</option>
+          <option>Anak</option>
+          <option>Remaja</option>
+          <option>Pendidikan</option>
+          <option>Instansi Pemerintah</option>
+          <option>Dakwah Umum</option>
+          <option>Motivasi</option>
+        </select>
+
+        <label>Tema</label>
+        <input type="text" id="tema" placeholder="Masukkan tema atau pilih tren isu" />
+
+        <button onclick="generateKonten()">BUAT KONTEN</button>
+      </div>
+
+      <div class="card">
+        <h3>📄 Hasil Konten</h3>
+        <div id="hasilKonten" class="result-box">Belum ada hasil.</div>
+      </div>
+
+      <div class="card">
+        <h3>🖼 Prompt Infografis AI</h3>
+
+        <label>Model Gambar</label>
+        <select id="modelGambar">
+          <option>Foto Profesional</option>
+          <option>Poster Pemerintah</option>
+          <option>Flat Design</option>
+          <option>Kartun</option>
+          <option>Karikatur</option>
+        </select>
+
+        <button onclick="generateInfografis()">BUAT PROMPT INFOGRAFIS</button>
+        <div id="hasilInfografis" class="result-box" style="margin-top:12px;">Belum ada hasil infografis.</div>
+      </div>
+    </section>
+
+    <section id="akunSection" class="section">
+      <div class="card" style="text-align:center">
+        <img src="logo.png" style="width:130px;border-radius:24px">
+        <h2>Inspiradata AI</h2>
+        <p class="small">Dari Data Menjadi Edukasi</p>
+      </div>
+
+      <div class="card">
+        <h3>👤 Profil Pengguna</h3>
+        <p><b>Nama:</b> <span id="namaUser">-</span></p>
+        <p><b>Role:</b> <span id="roleUser">-</span></p>
+        <p><b>Kode:</b> <span id="kodeUserText">-</span></p>
+      </div>
+
+      <div class="card">
+        <h3>ℹ️ Tentang Aplikasi</h3>
+        <p class="small">
+          Inspiradata AI adalah asisten intelijen konten edukasi publik untuk membantu penyuluh,
+          edukator, humas, dan pegiat sosial membaca tren isu, menyusun narasi, caption,
+          serta prompt infografis secara cepat dan sistematis.
+        </p>
+        <p><b>Versi:</b> 1.0</p>
+        <p><b>Tagline:</b> Dari Data Menjadi Edukasi</p>
+        <button onclick="logout()">KELUAR</button>
+      </div>
+    </section>
 
   </div>
 </div>
 
-<div class="bottom-nav">
-  <div>🏠<br>Home</div>
-  <div>📈<br>Tren</div>
-  <div>💡<br>Konten</div>
-  <div>👤<br>Akun</div>
+<div class="bottom-nav hidden" id="navBox">
+  <button id="navHome" class="active" onclick="showSection('homeSection','navHome')">🏠<br>Home</button>
+  <button id="navTren" onclick="showSection('trenSection','navTren')">📈<br>Tren</button>
+  <button id="navKonten" onclick="showSection('kontenSection','navKonten')">💡<br>Konten</button>
+  <button id="navAkun" onclick="showSection('akunSection','navAkun')">👤<br>Akun</button>
 </div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbw5d5REQvaNhJmhjH_gt58U1IqA3fw3ObkiWtGR4UTy5Wi1ikNZ1j33dKsIm7iIYJQfQg/exec";
 
 let kodeUser = "";
+let namaUser = "";
+let roleUser = "";
 let trenData = [];
+
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    document.getElementById("splash").style.display="none";
+  },2300);
+});
 
 async function login(){
   const kode = document.getElementById("kodeAkses").value.trim();
+  if(!kode){alert("Masukkan kode akses terlebih dahulu.");return;}
 
-  if(!kode){
-    alert("Masukkan kode akses terlebih dahulu.");
-    return;
-  }
-
-  const url = API_URL +
-    "?action=login" +
-    "&kode=" + encodeURIComponent(kode) +
-    "&deviceId=WEB001";
+  const url = API_URL + "?action=login&kode=" + encodeURIComponent(kode) + "&deviceId=WEB001";
 
   try{
     const res = await fetch(url);
@@ -269,8 +363,18 @@ async function login(){
 
     if(data.status){
       kodeUser = kode;
-      document.getElementById("loginBox").style.display = "none";
-      document.getElementById("dashboard").classList.remove("hidden");
+      namaUser = data.user?.nama || "Pengguna";
+      roleUser = data.user?.role || "USER";
+
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("appBox").classList.remove("hidden");
+      document.getElementById("navBox").classList.remove("hidden");
+
+      document.getElementById("userInfo").innerHTML = `${namaUser} | ${roleUser}`;
+      document.getElementById("namaUser").innerText = namaUser;
+      document.getElementById("roleUser").innerText = roleUser;
+      document.getElementById("kodeUserText").innerText = kodeUser;
+
       loadTren();
     }else{
       alert(data.message || "Login gagal.");
@@ -281,44 +385,54 @@ async function login(){
 }
 
 async function loadTren(){
-  const url = API_URL + "?action=tren";
-
   try{
-    const res = await fetch(url);
+    const res = await fetch(API_URL + "?action=tren");
     const data = await res.json();
-
     trenData = data.data || [];
 
-    if(!trenData.length){
-      document.getElementById("trenList").innerHTML = "Data tren belum tersedia.";
-      return;
-    }
+    document.getElementById("totalTren").innerText = trenData.length;
+    document.getElementById("topSkor").innerText = trenData[0]?.skor || 0;
 
-    let html = "";
-
-    trenData.forEach((item, index) => {
-      const isu = safe(item.isu);
-      const kategori = safe(item.kategori);
-      const insight = safe(item.insight);
-
-      html += `
-        <div class="tren" onclick="pakaiIsu(${index})">
-          <b>${item.ranking}. ${isu}</b><br>
-          <span class="badge">${kategori}</span><br>
-          <span class="small">Skor Tren: ${item.skor} | Jumlah Berita: ${item.jumlah_berita}</span>
-        </div>
-      `;
-    });
-
-    document.getElementById("trenList").innerHTML = html;
+    renderTren();
+    renderTopHome();
   }catch(err){
     document.getElementById("trenList").innerHTML = "Gagal memuat tren isu.";
   }
 }
 
+function renderTopHome(){
+  let html = "";
+  trenData.slice(0,3).forEach((item,index)=>{
+    html += makeTrenCard(item,index);
+  });
+  document.getElementById("topHome").innerHTML = html || "Data belum tersedia.";
+}
+
+function renderTren(){
+  const filter = document.getElementById("filterKategori").value;
+  const list = filter==="Semua" ? trenData : trenData.filter(x=>x.kategori===filter);
+
+  let html = "";
+  list.forEach(item=>{
+    const index = trenData.indexOf(item);
+    html += makeTrenCard(item,index);
+  });
+
+  document.getElementById("trenList").innerHTML = html || "Tidak ada data pada kategori ini.";
+}
+
+function makeTrenCard(item,index){
+  return `
+    <div class="tren" onclick="pakaiIsu(${index})">
+      <b>${safe(item.ranking)}. ${safe(item.isu)}</b><br>
+      <span class="badge">${safe(item.kategori)}</span><br>
+      <span class="small">Skor Tren: ${safe(item.skor)} | Jumlah Berita: ${safe(item.jumlah_berita)}</span>
+    </div>
+  `;
+}
+
 function pakaiIsu(index){
   const item = trenData[index];
-
   document.getElementById("tema").value = item.isu;
   document.getElementById("kategori").value = item.kategori;
 
@@ -326,6 +440,8 @@ function pakaiIsu(index){
     <b>${safe(item.isu)}</b><br><br>
     ${safe(item.insight)}
   `;
+
+  showSection("trenSection","navTren");
 }
 
 function rekomendasiHariIni(){
@@ -335,7 +451,6 @@ function rekomendasiHariIni(){
   }
 
   const top = trenData[0];
-
   document.getElementById("tema").value = top.isu;
   document.getElementById("kategori").value = top.kategori;
 
@@ -344,7 +459,7 @@ function rekomendasiHariIni(){
     🔥 ${safe(top.isu)}<br><br>
     <b>Mengapa penting?</b><br>
     ${safe(top.insight)}<br><br>
-    <button onclick="generateKonten()">BUAT KONTEN DARI ISU INI</button>
+    <button onclick="showSection('kontenSection','navKonten')">BUAT KONTEN DARI ISU INI</button>
   `;
 }
 
@@ -352,10 +467,7 @@ async function generateKonten(){
   const kategori = document.getElementById("kategori").value;
   const tema = document.getElementById("tema").value.trim();
 
-  if(!tema){
-    alert("Masukkan tema atau pilih tren isu dulu.");
-    return;
-  }
+  if(!tema){alert("Masukkan tema atau pilih tren isu dulu.");return;}
 
   const url = API_URL +
     "?action=konten" +
@@ -392,12 +504,9 @@ function generateInfografis(){
   const tema = document.getElementById("tema").value.trim();
   const model = document.getElementById("modelGambar").value;
 
-  if(!tema){
-    alert("Masukkan tema atau pilih tren isu dulu.");
-    return;
-  }
+  if(!tema){alert("Masukkan tema atau pilih tren isu dulu.");return;}
 
-  const prompt = `Buat infografis profesional bertema "${tema}" dalam kategori ${kategori}. Gaya visual: ${model}. Desain modern, warna solid, bersih, mudah dibaca di media sosial. Tambahkan suasana edukatif, humanis, dan inspiratif. Gunakan headline kuat, ruang teks rapi, dan komposisi vertikal untuk Instagram.`;
+  const prompt = `Buat infografis profesional bertema "${tema}" dalam kategori ${kategori}. Gaya visual: ${model}. Desain modern, warna solid biru tua, cyan, putih, bersih, mudah dibaca di media sosial. Tambahkan suasana edukatif, humanis, inspiratif, dan profesional. Gunakan headline kuat, ruang teks rapi, ikon data, elemen AI, serta komposisi vertikal untuk Instagram.`;
 
   document.getElementById("hasilInfografis").innerHTML = `
     <b>Headline</b>
@@ -415,8 +524,22 @@ function generateInfografis(){
     </ul>
 
     <b>Prompt Gambar</b>
-    <textarea rows="7">${safe(prompt)}</textarea>
+    <textarea rows="8">${safe(prompt)}</textarea>
   `;
+}
+
+function showSection(sectionId,navId){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(sectionId).classList.add("active");
+
+  document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.remove("active"));
+  document.getElementById(navId).classList.add("active");
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function logout(){
+  location.reload();
 }
 
 function safe(text){
