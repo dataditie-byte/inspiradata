@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Inspiradata AI</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f7fb;
+}
+
+.header{
+background:#0f4c81;
+color:white;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.container{
+padding:15px;
+}
+
+.card{
+background:white;
+padding:15px;
+margin-bottom:12px;
+border-radius:12px;
+box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+
+input,select,textarea{
+width:100%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:8px;
+margin-top:5px;
+margin-bottom:10px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#0f4c81;
+color:white;
+border:none;
+border-radius:8px;
+font-weight:bold;
+}
+
+.tren{
+padding:10px;
+border-bottom:1px solid #eee;
+cursor:pointer;
+}
+
+.tren:hover{
+background:#f0f0f0;
+}
+
+.hidden{
+display:none;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="header">
+INSPIRADATA AI
+</div>
+
+<div class="container">
+
+<div class="card" id="loginBox">
+
+<h3>Login</h3>
+
+<input
+type="text"
+id="kodeAkses"
+placeholder="Masukkan Kode Akses">
+
+<button onclick="login()">
+MASUK
+</button>
+
+</div>
+
+<div id="dashboard" class="hidden">
+
+<div class="card">
+
+<h3>📈 Tren Isu Hari Ini</h3>
+
+<div id="trenList">
+Memuat data...
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>💡 Generator Konten</h3>
+
+<select id="kategori">
+
+<option>P4GN</option>
+<option>Penyuluhan Narkoba</option>
+<option>Keluarga</option>
+<option>Desa Bersinar</option>
+<option>Anak</option>
+<option>Remaja</option>
+<option>Pendidikan</option>
+<option>Instansi Pemerintah</option>
+<option>Dakwah Umum</option>
+<option>Motivasi</option>
+
+</select>
+
+<input
+type="text"
+id="tema"
+placeholder="Masukkan tema">
+
+<button onclick="generateKonten()">
+BUAT KONTEN
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Hasil Konten</h3>
+
+<div id="hasilKonten">
+
+Belum ada hasil
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw5d5REQvaNhJmhjH_gt58U1IqA3fw3ObkiWtGR4UTy5Wi1ikNZ1j33dKsIm7iIYJQfQg/exec";
+
+let kodeUser="";
+
+function login(){
+
+kodeUser =
+document.getElementById("kodeAkses").value;
+
+document
+.getElementById("loginBox")
+.style.display="none";
+
+document
+.getElementById("dashboard")
+.classList.remove("hidden");
+
+loadTren();
+
+}
+
+async function loadTren(){
+
+const url =
+API_URL + "?action=tren";
+
+const res =
+await fetch(url);
+
+const data =
+await res.json();
+
+let html="";
+
+data.data.forEach(item=>{
+
+html += `
+<div class="tren"
+onclick="pakaiIsu('${item.isu}','${item.kategori}')">
+
+<b>${item.isu}</b><br>
+
+Kategori :
+${item.kategori}
+
+<br>
+
+Skor :
+${item.skor}
+
+</div>
+`;
+
+});
+
+document
+.getElementById("trenList")
+.innerHTML = html;
+
+}
+
+function pakaiIsu(isu,kategori){
+
+document
+.getElementById("tema")
+.value = isu;
+
+document
+.getElementById("kategori")
+.value = kategori;
+
+}
+
+async function generateKonten(){
+
+const kategori =
+document.getElementById("kategori").value;
+
+const tema =
+document.getElementById("tema").value;
+
+const url =
+API_URL
++
+"?action=konten"
++
+"&kodeUser="
++
+kodeUser
++
+"&kategori="
++
+encodeURIComponent(kategori)
++
+"&tema="
++
+encodeURIComponent(tema);
+
+const res =
+await fetch(url);
+
+const data =
+await res.json();
+
+document
+.getElementById("hasilKonten")
+.innerHTML =
+
+`
+<h3>${data.judul}</h3>
+
+<p>${data.narasi}</p>
+
+<hr>
+
+<b>Caption</b>
+
+<p>${data.caption}</p>
+
+<hr>
+
+<b>Hashtag</b>
+
+<p>${data.hashtag}</p>
+
+`;
+
+}
+
+</script>
+
+</body>
+</html>
