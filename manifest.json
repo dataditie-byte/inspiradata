@@ -1,22 +1,25 @@
 {
   "name": "Inspiradata AI",
   "short_name": "Inspiradata",
-  "description": "Asisten AI untuk tren isu dan konten penyuluhan.",
-  "start_url": "index.html",
+  "description": "Asisten intelijen konten edukasi publik berbasis tren isu.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f7fb",
-  "theme_color": "#0f4c81",
   "orientation": "portrait",
+  "background_color": "#061b4d",
+  "theme_color": "#061b4d",
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
