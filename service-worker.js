@@ -1,4 +1,4 @@
-const CACHE_NAME = "inspiradata-ai-v5";
+const CACHE_NAME = "inspiradata-ai-v6";
 
 const FILES_TO_CACHE = [
   "./",
