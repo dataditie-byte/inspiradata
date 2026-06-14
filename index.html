@@ -100,7 +100,16 @@ MASUK
 
 <div class="card">
 
-<h3>📈 Tren Isu Hari Ini</h3>
+<h3>🔥 Top Tren Isu Hari Ini</h3>
+<div class="card">
+  <h3>🧠 Insight AI</h3>
+  <div id="insightBox">
+    Klik salah satu tren isu untuk melihat analisis AI.
+  </div>
+</div>
+<div style="font-size:12px;color:#666;">
+Data berasal dari media online dan sumber publik yang dianalisis AI.
+</div>
 
 <div id="trenList">
 Memuat data...
@@ -110,7 +119,42 @@ Memuat data...
 
 <div class="card">
 
+<div class="card">
+  <h3>🎯 Rekomendasi Hari Ini</h3>
+  <p style="font-size:13px;color:#666;">
+    AI memilih isu prioritas dari tren publik hari ini.
+  </p>
+
+  <button onclick="rekomendasiHariIni()">
+    APA YANG PERLU SAYA BAHAS HARI INI?
+  </button>
+
+  <div id="rekomendasiBox" style="margin-top:12px;">
+    Belum ada rekomendasi.
+  </div>
+</div>
+
 <h3>💡 Generator Konten</h3>
+
+<div class="card">
+  <h3>🖼 Generator Infografis</h3>
+
+  <select id="modelGambar">
+    <option>Foto Profesional</option>
+    <option>Poster Pemerintah</option>
+    <option>Flat Design</option>
+    <option>Kartun</option>
+    <option>Karikatur</option>
+  </select>
+
+  <button onclick="generateInfografis()">
+    BUAT IDE INFOGRAFIS
+  </button>
+
+  <div id="hasilInfografis" style="margin-top:12px;">
+    Belum ada hasil infografis.
+  </div>
+</div>
 
 <select id="kategori">
 
@@ -154,6 +198,115 @@ Belum ada hasil
 
 </div>
 
+let trenData = [];
+
+async function loadTren(){
+
+const url = API_URL + "?action=tren";
+const res = await fetch(url);
+const data = await res.json();
+
+trenData = data.data || [];
+
+let html="";
+
+trenData.forEach(item=>{
+
+html += `
+<div class="tren"
+onclick="pakaiIsu(
+'${item.isu}',
+'${item.kategori}',
+'${item.insight}'
+)">
+
+<b>${item.ranking}. ${item.isu}</b><br>
+Kategori : ${item.kategori}<br>
+Skor : ${item.skor}
+
+</div>
+`;
+
+});
+
+document.getElementById("trenList").innerHTML = html;
+
+}
+
+function rekomendasiHariIni(){
+
+if(!trenData.length){
+  document.getElementById("rekomendasiBox").innerHTML =
+  "Data tren belum tersedia.";
+  return;
+}
+
+const top = trenData[0];
+
+document.getElementById("tema").value = top.isu;
+document.getElementById("kategori").value = top.kategori;
+
+document.getElementById("rekomendasiBox").innerHTML = `
+<b>Prioritas Hari Ini:</b><br>
+🔥 ${top.isu}<br><br>
+
+<b>Mengapa penting?</b><br>
+${top.insight}<br><br>
+
+<button onclick="generateKonten()">
+BUAT KONTEN DARI ISU INI
+</button>
+`;
+
+}
+
+function generateInfografis(){
+
+const kategori = document.getElementById("kategori").value;
+const tema = document.getElementById("tema").value;
+const model = document.getElementById("modelGambar").value;
+
+if(!tema){
+  alert("Masukkan tema atau pilih tren isu dulu.");
+  return;
+}
+
+const headline = tema;
+const subheadline = `Pesan edukasi ${kategori} untuk masyarakat.`;
+
+const poin = `
+<ul>
+  <li>Pahami masalah sejak dini.</li>
+  <li>Kuatkan keluarga, sekolah, dan lingkungan.</li>
+  <li>Bangun kepedulian bersama.</li>
+  <li>Jadikan edukasi sebagai langkah pencegahan.</li>
+</ul>
+`;
+
+const prompt = `
+Buat infografis profesional bertema "${tema}" dalam kategori ${kategori}.
+Gaya visual: ${model}.
+Desain modern, warna solid, bersih, mudah dibaca di media sosial.
+Tambahkan suasana edukatif, humanis, dan inspiratif.
+Gunakan headline kuat, ruang teks rapi, dan komposisi vertikal untuk Instagram.
+`;
+
+document.getElementById("hasilInfografis").innerHTML = `
+<b>Headline</b>
+<p>${headline}</p>
+
+<b>Subheadline</b>
+<p>${subheadline}</p>
+
+<b>Poin Infografis</b>
+${poin}
+
+<b>Prompt Gambar</b>
+<textarea rows="7">${prompt}</textarea>
+`;
+
+}
+
 <script>
 
 const API_URL =
@@ -161,60 +314,87 @@ const API_URL =
 
 let kodeUser="";
 
-function login(){
+async function login(){
 
-kodeUser =
-document.getElementById("kodeAkses").value;
+  const kode =
+  document.getElementById("kodeAkses").value;
 
-document
-.getElementById("loginBox")
-.style.display="none";
+  const url =
+  API_URL +
+  "?action=login" +
+  "&kode=" +
+  encodeURIComponent(kode) +
+  "&deviceId=WEB001";
 
-document
-.getElementById("dashboard")
-.classList.remove("hidden");
+  const res = await fetch(url);
+  const data = await res.json();
 
-loadTren();
+  if(data.status){
 
+      kodeUser = kode;
+
+      document
+      .getElementById("loginBox")
+      .style.display = "none";
+
+      document
+      .getElementById("dashboard")
+      .classList.remove("hidden");
+
+      loadTren();
+
+  } else {
+
+      alert(data.message);
+
+  }
 }
+
+let trenData = [];
 
 async function loadTren(){
 
-const url =
-API_URL + "?action=tren";
+const url = API_URL + "?action=tren";
+const res = await fetch(url);
+const data = await res.json();
 
-const res =
-await fetch(url);
-
-const data =
-await res.json();
+trenData = data.data || [];
 
 let html="";
 
-data.data.forEach(item=>{
+trenData.forEach(item=>{
 
 html += `
 <div class="tren"
-onclick="pakaiIsu('${item.isu}','${item.kategori}')">
+onclick="pakaiIsu(
+'${item.isu}',
+'${item.kategori}',
+'${item.insight}'
+)">
 
-<b>${item.isu}</b><br>
-
-Kategori :
-${item.kategori}
-
-<br>
-
-Skor :
-${item.skor}
+<b>${item.ranking}. ${item.isu}</b><br>
+Kategori : ${item.kategori}<br>
+Skor : ${item.skor}
 
 </div>
 `;
 
 });
 
-document
-.getElementById("trenList")
-.innerHTML = html;
+document.getElementById("trenList").innerHTML = html;
+
+}
+
+function pakaiIsu(isu,kategori,insight){
+
+document.getElementById("tema").value = isu;
+
+document.getElementById("kategori").value = kategori;
+
+document.getElementById("insightBox").innerHTML = `
+<b>${isu}</b><br><br>
+${insight}
+`;
 
 }
 
@@ -287,6 +467,18 @@ document
 }
 
 </script>
+
+<div class="bottom-nav">
+
+<div>🏠<br>Home</div>
+
+<div>📈<br>Tren</div>
+
+<div>💡<br>Konten</div>
+
+<div>👤<br>Akun</div>
+
+</div>
 
 </body>
 </html>
