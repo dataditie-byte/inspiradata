@@ -354,9 +354,29 @@ function makeTrenCard(item,index){
 
 function pakaiIsu(index){
   const item = trenData[index];
+
   document.getElementById("tema").value = item.isu;
   document.getElementById("kategori").value = item.kategori;
-  document.getElementById("insightBox").innerHTML = `<b>${safe(item.isu)}</b><br><br>${safe(item.insight)}`;
+
+  document.getElementById("insightBox").innerHTML = `
+    <div id="insightCopy">
+      <b>${safe(item.isu)}</b><br><br>
+      <b>Kategori:</b> ${safe(item.kategori)}<br>
+      <b>Skor Tren:</b> ${safe(item.skor)}<br>
+      <b>Jumlah Berita:</b> ${safe(item.jumlah_berita)}<br><br>
+
+      <b>Insight AI</b><br>
+      ${safe(item.insight)}<br><br>
+
+      <b>Sumber Berita</b><br>
+      ${formatLinks(item.sumber_link)}
+    </div>
+
+    <button class="copy-btn" onclick="copyText('insightCopy')">
+      SALIN INSIGHT & SUMBER
+    </button>
+  `;
+
   showSection("trenSection","navTren");
 }
 
@@ -484,6 +504,29 @@ function safe(text){
 if("serviceWorker" in navigator){
   navigator.serviceWorker.register("service-worker.js");
 }
+
+function formatLinks(text){
+  if(!text) return "Sumber belum tersedia.";
+
+  return String(text)
+    .split("\n")
+    .map(link => {
+      const clean = safe(link.trim());
+      if(!clean) return "";
+      return `<a href="${clean}" target="_blank">${clean}</a><br>`;
+    })
+    .join("");
+}
+
+function copyText(id){
+  const el = document.getElementById(id);
+  const text = el.innerText || el.value || "";
+
+  navigator.clipboard.writeText(text)
+    .then(()=>alert("Berhasil disalin."))
+    .catch(()=>alert("Gagal menyalin."));
+}
+
 </script>
 
 </body>
