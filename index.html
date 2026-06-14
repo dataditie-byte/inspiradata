@@ -1,484 +1,378 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <title>Inspiradata AI</title>
-
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0f4c81" />
 
 <style>
-
+*{box-sizing:border-box}
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f4f7fb;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f4f7fb;
+  color:#111;
+  padding-bottom:80px;
 }
-
 .header{
-background:#0f4c81;
-color:white;
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
+  background:#0f4c81;
+  color:white;
+  padding:18px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
 }
-
-.container{
-padding:15px;
-}
-
+.container{padding:15px}
 .card{
-background:white;
-padding:15px;
-margin-bottom:12px;
-border-radius:12px;
-box-shadow:0 2px 6px rgba(0,0,0,.1);
+  background:white;
+  padding:16px;
+  margin-bottom:14px;
+  border-radius:14px;
+  box-shadow:0 2px 8px rgba(0,0,0,.10);
 }
-
 input,select,textarea{
-width:100%;
-padding:10px;
-border:1px solid #ccc;
-border-radius:8px;
-margin-top:5px;
-margin-bottom:10px;
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:9px;
+  margin:8px 0 12px;
+  font-size:14px;
 }
-
 button{
-width:100%;
-padding:12px;
-background:#0f4c81;
-color:white;
-border:none;
-border-radius:8px;
-font-weight:bold;
+  width:100%;
+  padding:13px;
+  background:#0f4c81;
+  color:white;
+  border:none;
+  border-radius:9px;
+  font-weight:bold;
+  cursor:pointer;
 }
-
+button:active{transform:scale(.99)}
+.hidden{display:none}
 .tren{
-padding:10px;
-border-bottom:1px solid #eee;
-cursor:pointer;
+  padding:12px;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  margin-bottom:10px;
+  background:#fafafa;
+  cursor:pointer;
 }
-
-.tren:hover{
-background:#f0f0f0;
+.tren:hover{background:#eef6ff}
+.badge{
+  display:inline-block;
+  background:#e8f1fb;
+  color:#0f4c81;
+  padding:4px 8px;
+  border-radius:20px;
+  font-size:12px;
+  margin-top:6px;
 }
-
-.hidden{
-display:none;
+.small{
+  font-size:13px;
+  color:#666;
 }
-
+.result-box{
+  line-height:1.5;
+  white-space:normal;
+}
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:62px;
+  background:white;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  box-shadow:0 -2px 10px rgba(0,0,0,.12);
+  font-size:12px;
+  z-index:99;
+}
+.bottom-nav div{
+  text-align:center;
+  color:#0f4c81;
+  font-weight:bold;
+}
 </style>
-
 </head>
+
 <body>
 
-<div class="header">
-INSPIRADATA AI
-</div>
+<div class="header">INSPIRADATA AI</div>
 
 <div class="container">
 
-<div class="card" id="loginBox">
+  <!-- LOGIN -->
+  <div class="card" id="loginBox">
+    <h3>Login</h3>
+    <p class="small">Masukkan kode akses yang diberikan administrator.</p>
+    <input type="text" id="kodeAkses" placeholder="Masukkan Kode Akses" />
+    <button onclick="login()">MASUK</button>
+  </div>
 
-<h3>Login</h3>
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="hidden">
 
-<input
-type="text"
-id="kodeAkses"
-placeholder="Masukkan Kode Akses">
+    <div class="card">
+      <h3>🔥 Top Tren Isu Hari Ini</h3>
+      <p class="small">Data berasal dari media online dan sumber publik yang dianalisis AI.</p>
+      <div id="trenList">Memuat data...</div>
+    </div>
 
-<button onclick="login()">
-MASUK
-</button>
+    <div class="card">
+      <h3>🧠 Insight AI</h3>
+      <div id="insightBox" class="result-box">
+        Klik salah satu tren isu untuk melihat analisis AI.
+      </div>
+    </div>
 
-</div>
+    <div class="card">
+      <h3>🎯 Rekomendasi Hari Ini</h3>
+      <p class="small">AI memilih isu prioritas dari tren publik hari ini.</p>
+      <button onclick="rekomendasiHariIni()">APA YANG PERLU SAYA BAHAS HARI INI?</button>
+      <div id="rekomendasiBox" style="margin-top:12px;">Belum ada rekomendasi.</div>
+    </div>
 
-<div id="dashboard" class="hidden">
+    <div class="card">
+      <h3>💡 Generator Konten</h3>
 
-<div class="card">
+      <select id="kategori">
+        <option>P4GN</option>
+        <option>Penyuluhan Narkoba</option>
+        <option>Keluarga</option>
+        <option>Desa Bersinar</option>
+        <option>Anak</option>
+        <option>Remaja</option>
+        <option>Pendidikan</option>
+        <option>Instansi Pemerintah</option>
+        <option>Dakwah Umum</option>
+        <option>Motivasi</option>
+      </select>
 
-<h3>🔥 Top Tren Isu Hari Ini</h3>
-<div class="card">
-  <h3>🧠 Insight AI</h3>
-  <div id="insightBox">
-    Klik salah satu tren isu untuk melihat analisis AI.
+      <input type="text" id="tema" placeholder="Masukkan tema atau pilih tren isu" />
+
+      <button onclick="generateKonten()">BUAT KONTEN</button>
+    </div>
+
+    <div class="card">
+      <h3>📄 Hasil Konten</h3>
+      <div id="hasilKonten" class="result-box">Belum ada hasil.</div>
+    </div>
+
+    <div class="card">
+      <h3>🖼 Generator Infografis</h3>
+
+      <select id="modelGambar">
+        <option>Foto Profesional</option>
+        <option>Poster Pemerintah</option>
+        <option>Flat Design</option>
+        <option>Kartun</option>
+        <option>Karikatur</option>
+      </select>
+
+      <button onclick="generateInfografis()">BUAT IDE INFOGRAFIS</button>
+
+      <div id="hasilInfografis" class="result-box" style="margin-top:12px;">
+        Belum ada hasil infografis.
+      </div>
+    </div>
+
   </div>
 </div>
-<div style="font-size:12px;color:#666;">
-Data berasal dari media online dan sumber publik yang dianalisis AI.
+
+<div class="bottom-nav">
+  <div>🏠<br>Home</div>
+  <div>📈<br>Tren</div>
+  <div>💡<br>Konten</div>
+  <div>👤<br>Akun</div>
 </div>
-
-<div id="trenList">
-Memuat data...
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="card">
-  <h3>🎯 Rekomendasi Hari Ini</h3>
-  <p style="font-size:13px;color:#666;">
-    AI memilih isu prioritas dari tren publik hari ini.
-  </p>
-
-  <button onclick="rekomendasiHariIni()">
-    APA YANG PERLU SAYA BAHAS HARI INI?
-  </button>
-
-  <div id="rekomendasiBox" style="margin-top:12px;">
-    Belum ada rekomendasi.
-  </div>
-</div>
-
-<h3>💡 Generator Konten</h3>
-
-<div class="card">
-  <h3>🖼 Generator Infografis</h3>
-
-  <select id="modelGambar">
-    <option>Foto Profesional</option>
-    <option>Poster Pemerintah</option>
-    <option>Flat Design</option>
-    <option>Kartun</option>
-    <option>Karikatur</option>
-  </select>
-
-  <button onclick="generateInfografis()">
-    BUAT IDE INFOGRAFIS
-  </button>
-
-  <div id="hasilInfografis" style="margin-top:12px;">
-    Belum ada hasil infografis.
-  </div>
-</div>
-
-<select id="kategori">
-
-<option>P4GN</option>
-<option>Penyuluhan Narkoba</option>
-<option>Keluarga</option>
-<option>Desa Bersinar</option>
-<option>Anak</option>
-<option>Remaja</option>
-<option>Pendidikan</option>
-<option>Instansi Pemerintah</option>
-<option>Dakwah Umum</option>
-<option>Motivasi</option>
-
-</select>
-
-<input
-type="text"
-id="tema"
-placeholder="Masukkan tema">
-
-<button onclick="generateKonten()">
-BUAT KONTEN
-</button>
-
-</div>
-
-<div class="card">
-
-<h3>Hasil Konten</h3>
-
-<div id="hasilKonten">
-
-Belum ada hasil
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-let trenData = [];
-
-async function loadTren(){
-
-const url = API_URL + "?action=tren";
-const res = await fetch(url);
-const data = await res.json();
-
-trenData = data.data || [];
-
-let html="";
-
-trenData.forEach(item=>{
-
-html += `
-<div class="tren"
-onclick="pakaiIsu(
-'${item.isu}',
-'${item.kategori}',
-'${item.insight}'
-)">
-
-<b>${item.ranking}. ${item.isu}</b><br>
-Kategori : ${item.kategori}<br>
-Skor : ${item.skor}
-
-</div>
-`;
-
-});
-
-document.getElementById("trenList").innerHTML = html;
-
-}
-
-function rekomendasiHariIni(){
-
-if(!trenData.length){
-  document.getElementById("rekomendasiBox").innerHTML =
-  "Data tren belum tersedia.";
-  return;
-}
-
-const top = trenData[0];
-
-document.getElementById("tema").value = top.isu;
-document.getElementById("kategori").value = top.kategori;
-
-document.getElementById("rekomendasiBox").innerHTML = `
-<b>Prioritas Hari Ini:</b><br>
-🔥 ${top.isu}<br><br>
-
-<b>Mengapa penting?</b><br>
-${top.insight}<br><br>
-
-<button onclick="generateKonten()">
-BUAT KONTEN DARI ISU INI
-</button>
-`;
-
-}
-
-function generateInfografis(){
-
-const kategori = document.getElementById("kategori").value;
-const tema = document.getElementById("tema").value;
-const model = document.getElementById("modelGambar").value;
-
-if(!tema){
-  alert("Masukkan tema atau pilih tren isu dulu.");
-  return;
-}
-
-const headline = tema;
-const subheadline = `Pesan edukasi ${kategori} untuk masyarakat.`;
-
-const poin = `
-<ul>
-  <li>Pahami masalah sejak dini.</li>
-  <li>Kuatkan keluarga, sekolah, dan lingkungan.</li>
-  <li>Bangun kepedulian bersama.</li>
-  <li>Jadikan edukasi sebagai langkah pencegahan.</li>
-</ul>
-`;
-
-const prompt = `
-Buat infografis profesional bertema "${tema}" dalam kategori ${kategori}.
-Gaya visual: ${model}.
-Desain modern, warna solid, bersih, mudah dibaca di media sosial.
-Tambahkan suasana edukatif, humanis, dan inspiratif.
-Gunakan headline kuat, ruang teks rapi, dan komposisi vertikal untuk Instagram.
-`;
-
-document.getElementById("hasilInfografis").innerHTML = `
-<b>Headline</b>
-<p>${headline}</p>
-
-<b>Subheadline</b>
-<p>${subheadline}</p>
-
-<b>Poin Infografis</b>
-${poin}
-
-<b>Prompt Gambar</b>
-<textarea rows="7">${prompt}</textarea>
-`;
-
-}
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbw5d5REQvaNhJmhjH_gt58U1IqA3fw3ObkiWtGR4UTy5Wi1ikNZ1j33dKsIm7iIYJQfQg/exec";
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbw5d5REQvaNhJmhjH_gt58U1IqA3fw3ObkiWtGR4UTy5Wi1ikNZ1j33dKsIm7iIYJQfQg/exec";
-
-let kodeUser="";
+let kodeUser = "";
+let trenData = [];
 
 async function login(){
+  const kode = document.getElementById("kodeAkses").value.trim();
 
-  const kode =
-  document.getElementById("kodeAkses").value;
+  if(!kode){
+    alert("Masukkan kode akses terlebih dahulu.");
+    return;
+  }
 
-  const url =
-  API_URL +
-  "?action=login" +
-  "&kode=" +
-  encodeURIComponent(kode) +
-  "&deviceId=WEB001";
+  const url = API_URL +
+    "?action=login" +
+    "&kode=" + encodeURIComponent(kode) +
+    "&deviceId=WEB001";
 
-  const res = await fetch(url);
-  const data = await res.json();
+  try{
+    const res = await fetch(url);
+    const data = await res.json();
 
-  if(data.status){
-
+    if(data.status){
       kodeUser = kode;
-
-      document
-      .getElementById("loginBox")
-      .style.display = "none";
-
-      document
-      .getElementById("dashboard")
-      .classList.remove("hidden");
-
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("dashboard").classList.remove("hidden");
       loadTren();
-
-  } else {
-
-      alert(data.message);
-
+    }else{
+      alert(data.message || "Login gagal.");
+    }
+  }catch(err){
+    alert("Gagal terhubung ke server.");
   }
 }
 
-let trenData = [];
-
 async function loadTren(){
+  const url = API_URL + "?action=tren";
 
-const url = API_URL + "?action=tren";
-const res = await fetch(url);
-const data = await res.json();
+  try{
+    const res = await fetch(url);
+    const data = await res.json();
 
-trenData = data.data || [];
+    trenData = data.data || [];
 
-let html="";
+    if(!trenData.length){
+      document.getElementById("trenList").innerHTML = "Data tren belum tersedia.";
+      return;
+    }
 
-trenData.forEach(item=>{
+    let html = "";
 
-html += `
-<div class="tren"
-onclick="pakaiIsu(
-'${item.isu}',
-'${item.kategori}',
-'${item.insight}'
-)">
+    trenData.forEach(item => {
+      html += `
+        <div class="tren" onclick="pakaiIsu('${escapeText(item.isu)}','${escapeText(item.kategori)}','${escapeText(item.insight)}')">
+          <b>${item.ranking}. ${item.isu}</b><br>
+          <span class="badge">${item.kategori}</span><br>
+          <span class="small">Skor Tren: ${item.skor} | Jumlah Berita: ${item.jumlah_berita}</span>
+        </div>
+      `;
+    });
 
-<b>${item.ranking}. ${item.isu}</b><br>
-Kategori : ${item.kategori}<br>
-Skor : ${item.skor}
-
-</div>
-`;
-
-});
-
-document.getElementById("trenList").innerHTML = html;
-
+    document.getElementById("trenList").innerHTML = html;
+  }catch(err){
+    document.getElementById("trenList").innerHTML = "Gagal memuat tren isu.";
+  }
 }
 
-function pakaiIsu(isu,kategori,insight){
+function pakaiIsu(isu, kategori, insight){
+  document.getElementById("tema").value = isu;
+  document.getElementById("kategori").value = kategori;
 
-document.getElementById("tema").value = isu;
-
-document.getElementById("kategori").value = kategori;
-
-document.getElementById("insightBox").innerHTML = `
-<b>${isu}</b><br><br>
-${insight}
-`;
-
+  document.getElementById("insightBox").innerHTML = `
+    <b>${isu}</b><br><br>
+    ${insight}
+  `;
 }
 
-function pakaiIsu(isu,kategori){
+function rekomendasiHariIni(){
+  if(!trenData.length){
+    document.getElementById("rekomendasiBox").innerHTML = "Data tren belum tersedia.";
+    return;
+  }
 
-document
-.getElementById("tema")
-.value = isu;
+  const top = trenData[0];
 
-document
-.getElementById("kategori")
-.value = kategori;
+  document.getElementById("tema").value = top.isu;
+  document.getElementById("kategori").value = top.kategori;
 
+  document.getElementById("rekomendasiBox").innerHTML = `
+    <b>Prioritas Hari Ini:</b><br>
+    🔥 ${top.isu}<br><br>
+    <b>Mengapa penting?</b><br>
+    ${top.insight}<br><br>
+    <button onclick="generateKonten()">BUAT KONTEN DARI ISU INI</button>
+  `;
 }
 
 async function generateKonten(){
+  const kategori = document.getElementById("kategori").value;
+  const tema = document.getElementById("tema").value.trim();
 
-const kategori =
-document.getElementById("kategori").value;
+  if(!tema){
+    alert("Masukkan tema atau pilih tren isu dulu.");
+    return;
+  }
 
-const tema =
-document.getElementById("tema").value;
+  const url = API_URL +
+    "?action=konten" +
+    "&kodeUser=" + encodeURIComponent(kodeUser) +
+    "&kategori=" + encodeURIComponent(kategori) +
+    "&tema=" + encodeURIComponent(tema);
 
-const url =
-API_URL
-+
-"?action=konten"
-+
-"&kodeUser="
-+
-kodeUser
-+
-"&kategori="
-+
-encodeURIComponent(kategori)
-+
-"&tema="
-+
-encodeURIComponent(tema);
+  document.getElementById("hasilKonten").innerHTML = "Sedang membuat konten...";
 
-const res =
-await fetch(url);
+  try{
+    const res = await fetch(url);
+    const data = await res.json();
 
-const data =
-await res.json();
-
-document
-.getElementById("hasilKonten")
-.innerHTML =
-
-`
-<h3>${data.judul}</h3>
-
-<p>${data.narasi}</p>
-
-<hr>
-
-<b>Caption</b>
-
-<p>${data.caption}</p>
-
-<hr>
-
-<b>Hashtag</b>
-
-<p>${data.hashtag}</p>
-
-`;
-
+    document.getElementById("hasilKonten").innerHTML = `
+      <h3>${data.judul}</h3>
+      <p>${data.narasi}</p>
+      <hr>
+      <b>Caption</b>
+      <p>${data.caption}</p>
+      <hr>
+      <b>Hashtag</b>
+      <p>${data.hashtag}</p>
+      <hr>
+      <b>CTA</b>
+      <p>${data.cta || ""}</p>
+    `;
+  }catch(err){
+    document.getElementById("hasilKonten").innerHTML = "Gagal membuat konten.";
+  }
 }
 
+function generateInfografis(){
+  const kategori = document.getElementById("kategori").value;
+  const tema = document.getElementById("tema").value.trim();
+  const model = document.getElementById("modelGambar").value;
+
+  if(!tema){
+    alert("Masukkan tema atau pilih tren isu dulu.");
+    return;
+  }
+
+  const prompt = `Buat infografis profesional bertema "${tema}" dalam kategori ${kategori}. Gaya visual: ${model}. Desain modern, warna solid, bersih, mudah dibaca di media sosial. Tambahkan suasana edukatif, humanis, dan inspiratif. Gunakan headline kuat, ruang teks rapi, dan komposisi vertikal untuk Instagram.`;
+
+  document.getElementById("hasilInfografis").innerHTML = `
+    <b>Headline</b>
+    <p>${tema}</p>
+
+    <b>Subheadline</b>
+    <p>Pesan edukasi ${kategori} untuk masyarakat.</p>
+
+    <b>Poin Infografis</b>
+    <ul>
+      <li>Pahami masalah sejak dini.</li>
+      <li>Kuatkan keluarga, sekolah, dan lingkungan.</li>
+      <li>Bangun kepedulian bersama.</li>
+      <li>Jadikan edukasi sebagai langkah pencegahan.</li>
+    </ul>
+
+    <b>Prompt Gambar</b>
+    <textarea rows="7">${prompt}</textarea>
+  `;
+}
+
+function escapeText(text){
+  return String(text || "")
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, "&quot;")
+    .replace(/\n/g, " ");
+}
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("service-worker.js");
+}
 </script>
-
-<div class="bottom-nav">
-
-<div>🏠<br>Home</div>
-
-<div>📈<br>Tren</div>
-
-<div>💡<br>Konten</div>
-
-<div>👤<br>Akun</div>
-
-</div>
 
 </body>
 </html>
