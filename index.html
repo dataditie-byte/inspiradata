@@ -517,14 +517,16 @@ async function generateKonten(){
 
   if(!tema){alert("Masukkan tema atau pilih tren isu dulu.");return}
 
-  const temaLengkap =
-    `${tema}. Buat dalam format ${format}, untuk ${platform}, sasaran ${sasaran}, gaya bahasa ${gaya}, dengan sudut pandang ${sudut}. Buat konten tidak kaku, humanis, kontekstual, dan aplikatif untuk edukasi publik.`;
-
   const url = API_URL +
-    "?action=konten" +
-    "&kodeUser=" + encodeURIComponent(kodeUser) +
-    "&kategori=" + encodeURIComponent(kategori) +
-    "&tema=" + encodeURIComponent(temaLengkap);
+  "?action=konten" +
+  "&kodeUser=" + encodeURIComponent(kodeUser) +
+  "&kategori=" + encodeURIComponent(kategori) +
+  "&tema=" + encodeURIComponent(tema) +
+  "&sasaran=" + encodeURIComponent(sasaran) +
+  "&gaya=" + encodeURIComponent(gaya) +
+  "&format=" + encodeURIComponent(format) +
+  "&platform=" + encodeURIComponent(platform) +
+  "&sudut=" + encodeURIComponent(sudut);v
 
   document.getElementById("hasilKonten").innerHTML = "Sedang membuat konten...";
 
