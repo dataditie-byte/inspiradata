@@ -12,32 +12,33 @@
 *{box-sizing:border-box}
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:#f4f7fb;
+  font-family:Arial,sans-serif;
+  background:#eef3f9;
   color:#111;
   padding-bottom:80px;
 }
 .header{
-  background:#0f4c81;
+  background:linear-gradient(135deg,#0f4c81,#123c69);
   color:white;
   padding:18px;
   text-align:center;
   font-size:22px;
   font-weight:bold;
+  letter-spacing:.5px;
 }
 .container{padding:15px}
 .card{
   background:white;
   padding:16px;
   margin-bottom:14px;
-  border-radius:14px;
-  box-shadow:0 2px 8px rgba(0,0,0,.10);
+  border-radius:16px;
+  box-shadow:0 3px 10px rgba(0,0,0,.10);
 }
 input,select,textarea{
   width:100%;
   padding:12px;
-  border:1px solid #ccc;
-  border-radius:9px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
   margin:8px 0 12px;
   font-size:14px;
 }
@@ -47,18 +48,18 @@ button{
   background:#0f4c81;
   color:white;
   border:none;
-  border-radius:9px;
+  border-radius:10px;
   font-weight:bold;
   cursor:pointer;
 }
-button:active{transform:scale(.99)}
 .hidden{display:none}
+.small{font-size:13px;color:#667085}
 .tren{
-  padding:12px;
+  padding:13px;
   border:1px solid #e5e7eb;
-  border-radius:10px;
+  border-radius:12px;
   margin-bottom:10px;
-  background:#fafafa;
+  background:#fafcff;
   cursor:pointer;
 }
 .tren:hover{background:#eef6ff}
@@ -66,18 +67,61 @@ button:active{transform:scale(.99)}
   display:inline-block;
   background:#e8f1fb;
   color:#0f4c81;
-  padding:4px 8px;
+  padding:4px 9px;
   border-radius:20px;
   font-size:12px;
-  margin-top:6px;
+  margin:6px 0;
 }
-.small{
-  font-size:13px;
-  color:#666;
+.result-box{line-height:1.5}
+.access-wrap{
+  min-height:calc(100vh - 160px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
-.result-box{
-  line-height:1.5;
-  white-space:normal;
+.access-card{
+  width:100%;
+  max-width:430px;
+  background:linear-gradient(180deg,#fff,#f8fbff);
+  border-radius:22px;
+  padding:26px;
+  box-shadow:0 10px 28px rgba(15,76,129,.18);
+  border:1px solid #e4edf7;
+}
+.access-logo{
+  width:74px;
+  height:74px;
+  border-radius:22px;
+  background:#0f4c81;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:36px;
+  margin:0 auto 14px;
+}
+.access-card h2{
+  text-align:center;
+  margin:4px 0 8px;
+  color:#0f4c81;
+}
+.access-card p{
+  text-align:center;
+  color:#667085;
+  font-size:14px;
+  margin-bottom:22px;
+}
+.access-card label{
+  font-weight:bold;
+  font-size:14px;
+}
+.access-note{
+  margin-top:15px;
+  font-size:12px;
+  color:#667085;
+  text-align:center;
+  line-height:1.4;
 }
 .bottom-nav{
   position:fixed;
@@ -107,15 +151,23 @@ button:active{transform:scale(.99)}
 
 <div class="container">
 
-  <!-- LOGIN -->
-  <div class="card" id="loginBox">
-    <h3>Login</h3>
-    <p class="small">Masukkan kode akses yang diberikan administrator.</p>
-    <input type="text" id="kodeAkses" placeholder="Masukkan Kode Akses" />
-    <button onclick="login()">MASUK</button>
+  <div class="access-wrap" id="loginBox">
+    <div class="access-card">
+      <div class="access-logo">🤖</div>
+      <h2>Inspiradata AI</h2>
+      <p>Asisten intelijen konten penyuluhan berbasis tren isu publik.</p>
+
+      <label>Kode Akses</label>
+      <input type="text" id="kodeAkses" placeholder="Contoh: INS-ADMIN-001" />
+
+      <button onclick="login()">MASUK APLIKASI</button>
+
+      <div class="access-note">
+        Akses hanya untuk pengguna yang telah mendapatkan kode dari administrator.
+      </div>
+    </div>
   </div>
 
-  <!-- DASHBOARD -->
   <div id="dashboard" class="hidden">
 
     <div class="card">
@@ -244,11 +296,15 @@ async function loadTren(){
 
     let html = "";
 
-    trenData.forEach(item => {
+    trenData.forEach((item, index) => {
+      const isu = safe(item.isu);
+      const kategori = safe(item.kategori);
+      const insight = safe(item.insight);
+
       html += `
-        <div class="tren" onclick="pakaiIsu('${escapeText(item.isu)}','${escapeText(item.kategori)}','${escapeText(item.insight)}')">
-          <b>${item.ranking}. ${item.isu}</b><br>
-          <span class="badge">${item.kategori}</span><br>
+        <div class="tren" onclick="pakaiIsu(${index})">
+          <b>${item.ranking}. ${isu}</b><br>
+          <span class="badge">${kategori}</span><br>
           <span class="small">Skor Tren: ${item.skor} | Jumlah Berita: ${item.jumlah_berita}</span>
         </div>
       `;
@@ -260,13 +316,15 @@ async function loadTren(){
   }
 }
 
-function pakaiIsu(isu, kategori, insight){
-  document.getElementById("tema").value = isu;
-  document.getElementById("kategori").value = kategori;
+function pakaiIsu(index){
+  const item = trenData[index];
+
+  document.getElementById("tema").value = item.isu;
+  document.getElementById("kategori").value = item.kategori;
 
   document.getElementById("insightBox").innerHTML = `
-    <b>${isu}</b><br><br>
-    ${insight}
+    <b>${safe(item.isu)}</b><br><br>
+    ${safe(item.insight)}
   `;
 }
 
@@ -283,9 +341,9 @@ function rekomendasiHariIni(){
 
   document.getElementById("rekomendasiBox").innerHTML = `
     <b>Prioritas Hari Ini:</b><br>
-    🔥 ${top.isu}<br><br>
+    🔥 ${safe(top.isu)}<br><br>
     <b>Mengapa penting?</b><br>
-    ${top.insight}<br><br>
+    ${safe(top.insight)}<br><br>
     <button onclick="generateKonten()">BUAT KONTEN DARI ISU INI</button>
   `;
 }
@@ -312,17 +370,17 @@ async function generateKonten(){
     const data = await res.json();
 
     document.getElementById("hasilKonten").innerHTML = `
-      <h3>${data.judul}</h3>
-      <p>${data.narasi}</p>
+      <h3>${safe(data.judul)}</h3>
+      <p>${safe(data.narasi)}</p>
       <hr>
       <b>Caption</b>
-      <p>${data.caption}</p>
+      <p>${safe(data.caption)}</p>
       <hr>
       <b>Hashtag</b>
-      <p>${data.hashtag}</p>
+      <p>${safe(data.hashtag)}</p>
       <hr>
       <b>CTA</b>
-      <p>${data.cta || ""}</p>
+      <p>${safe(data.cta || "")}</p>
     `;
   }catch(err){
     document.getElementById("hasilKonten").innerHTML = "Gagal membuat konten.";
@@ -343,10 +401,10 @@ function generateInfografis(){
 
   document.getElementById("hasilInfografis").innerHTML = `
     <b>Headline</b>
-    <p>${tema}</p>
+    <p>${safe(tema)}</p>
 
     <b>Subheadline</b>
-    <p>Pesan edukasi ${kategori} untuk masyarakat.</p>
+    <p>Pesan edukasi ${safe(kategori)} untuk masyarakat.</p>
 
     <b>Poin Infografis</b>
     <ul>
@@ -357,16 +415,17 @@ function generateInfografis(){
     </ul>
 
     <b>Prompt Gambar</b>
-    <textarea rows="7">${prompt}</textarea>
+    <textarea rows="7">${safe(prompt)}</textarea>
   `;
 }
 
-function escapeText(text){
+function safe(text){
   return String(text || "")
-    .replace(/\\/g, "\\\\")
-    .replace(/'/g, "\\'")
-    .replace(/"/g, "&quot;")
-    .replace(/\n/g, " ");
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
 if("serviceWorker" in navigator){
