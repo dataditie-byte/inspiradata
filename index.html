@@ -102,7 +102,11 @@ textarea{min-height:130px;resize:vertical}
 <section id="trenSection" class="section">
   <div class="card">
     <h3>📈 Tren Isu AI</h3>
-    <select id="filterKategori" onchange="renderTren()">
+<button onclick="updateTrenHariIni()" style="margin-bottom:12px">
+  🔄 UPDATE TREN HARI INI
+</button>
+
+<select id="filterKategori" onchange="renderTren()">
       <option>Semua</option>
       <option>P4GN</option>
       <option>Penyuluhan Narkoba</option>
@@ -308,6 +312,31 @@ async function login(){
     }
   }catch(err){
     alert("Gagal terhubung ke server. Cek API_URL.");
+  }
+}
+
+async function updateTrenHariIni(){
+  document.getElementById("trenList").innerHTML = "Sedang menarik data tren terbaru...";
+
+  try{
+    const res = await fetch(API_URL + "?action=updateTren&ts=" + Date.now());
+    const data = await res.json();
+
+    if(data.status){
+      trenData = data.data || [];
+
+      document.getElementById("totalTren").innerText = trenData.length;
+      document.getElementById("topSkor").innerText = trenData.length ? trenData[0].skor : 0;
+
+      renderTren();
+      renderTopHome();
+
+      alert("Tren hari ini berhasil diperbarui.");
+    }else{
+      document.getElementById("trenList").innerHTML = "Gagal update tren.";
+    }
+  }catch(err){
+    document.getElementById("trenList").innerHTML = "Gagal menarik tren terbaru. Cek deploy Apps Script.";
   }
 }
 
